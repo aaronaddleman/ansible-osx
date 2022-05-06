@@ -1,4 +1,4 @@
-# ansible-macosx
+# ansible-osx
 
 use ansible to configure the mac
 
