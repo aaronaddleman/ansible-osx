@@ -1,0 +1,21 @@
+---
+# set to 'true' to configure the dock via dockutil
+configure_dock: false
+dockitems_remove: []
+# - Launchpad
+# - TV
+# - Podcasts
+# - 'App Store'
+dockitems_persist: []
+# - name: "Sublime Text"
+#   path: "/Applications/Sublime Text.app/"
+#   pos: 5
+
+homebrew_taps:
+  - homebrew/core
+  - caskroom/cask
+
+homebrew_cask_appdir: /Applications
+# homebrew_cask_apps:
+# - docker
+# - macvim

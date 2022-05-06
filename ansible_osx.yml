@@ -1,0 +1,126 @@
+---
+- hosts: all
+  connection: local
+  vars:
+    home_directory: /Users/{{ ansible_user_id }}
+    downloads_directory: /{{ home_directory }}/.ansible/downloads
+    personal_email: "aaronaddleman@gmail.com"
+    personal_name: "Aaron Addleman"
+  vars_files:
+    - default.config.yml
+  gather_facts: true
+  tasks:
+    - name: "Install homebrew packages"
+      community.general.homebrew:
+        name: [
+          'fzf',
+          'iperf',
+          'gpg',
+          'gpg2',
+          'gnupg2',
+          'pinentry-mac'
+        ]
+        state: present
+        update_homebrew: yes
+    - name: Create /usr/local/bin
+      ansible.builtin.file:
+        path: /usr/local/bin
+        state: directory
+        mode: '0755'
+      become: yes
+    - name: pinentry-mac file
+      ansible.builtin.template:
+        src: templates/pinentry-mac.j2
+        dest: /usr/local/bin/pinentry-mac
+        mode: '0644'
+      become: yes
+
+    - name: "Install emacs-plus tap"
+      community.general.homebrew_tap:
+        name: d12frosted/emacs-plus
+        url: https://github.com/d12frosted/homebrew-emacs-plus
+    - name: "Install general homebrew"
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        # for font-source-code-pro
+        - svn
+        - ispell
+    - name: "Install source code pro"
+      community.general.homebrew_tap:
+        name: homebrew/cask-fonts
+    - name: "Source Code Pro"
+      community.general.homebrew_cask:
+        name: font-source-code-pro
+        state: present
+    # https://github.com/d12/frosted/homebrew-emacs-plus#emacs-28-options
+    - name: "Install emacs comp"
+      community.general.homebrew:
+        name: emacs-plus@28
+        state: present
+        install_options: with-native-comp,with-spacemacs-icon
+    # Spacemacs
+    - name: Spacemacs
+      ansible.builtin.git:
+        repo: 'https://github.com/syl20bnr/spacemacs'
+        dest: ~/.emacs.d
+        update: no
+    - name: Aaron's Dotfiles
+      ansible.builtin.git:
+        repo: 'https://github.com/aaronaddleman/dotfiles.git'
+        dest: ~/src/github.com/dotfiles
+        update: no
+    - name: Link .spacemacs file
+      ansible.builtin.file:
+        src: ~/src/github.com/dotfiles/spacemacs
+        dest: ~/.spacemacs
+        state: link
+    - name: Install cask apps
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - obsidian
+        - docker
+        - dash
+        - iterm2
+        - google-chrome
+        - todoist
+        - postman
+        - 1password
+    - name: Gather trackpad clicking
+      shell: defaults read com.apple.AppleMultitouchTrackpad Clicking
+      register: trackpadClicking
+      delegate_to: 127.0.0.1
+      run_once: true
+    - set_fact: 
+        trackpadClicking={{ trackpadClicking.stdout }}
+
+    - name: Gather trackpad draglock
+      shell: defaults read com.apple.AppleMultitouchTrackpad DragLock
+      register: trackpadDragLock
+      delegate_to: 127.0.0.1
+      run_once: true
+    - set_fact: 
+        trackpadDragLock={{ trackpadDragLock.stdout }}
+
+    - name: Gather trackpad dragging
+      shell: defaults read com.apple.AppleMultitouchTrackpad Dragging
+      register: trackpadDragging
+      delegate_to: 127.0.0.1
+      run_once: true
+    - set_fact: 
+        trackpadDragging={{ trackpadDragging.stdout }}
+
+    - name: Set trackpad settings
+      ansible.builtin.command: defaults write com.apple.AppleMultitouchTrackpad Clicking 1
+      when: trackpadClicking == 0
+
+    - name: Set trackpad settings
+      ansible.builtin.command: defaults write com.apple.AppleMultitouchTrackpad DragLock 1
+      when: trackpadDragLock == 0
+
+    - name: Set trackpad settings
+      ansible.builtin.command: defaults write com.apple.AppleMultitouchTrackpad Dragging 1
+      when: trackpadDragging == 0
