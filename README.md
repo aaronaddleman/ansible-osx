@@ -1,6 +1,8 @@
 # ansible-osx
 
-use ansible to configure the mac
+Use ansible to configure the mac
+
+Its best to fork this project and make it your own.
 
 ## preflight
 
