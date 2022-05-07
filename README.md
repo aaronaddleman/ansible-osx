@@ -33,3 +33,34 @@ ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass --ch
 ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass
 ```
 
+## finding new configs
+
+When you have a setting you have applied with the Settings application, you can do the following:
+
+1. dump the current settings
+1. apply the change in Settings application
+1. dump the current settings again
+1. compare the changes
+1. build the `defaults write` command to repeat in the future
+
+### dump the current settings
+
+```shell
+defaults read > default_read.txt
+```
+
+### apply the change
+
+Goto the settings application and make a change that you want to be captured
+
+### dump the current settings again
+
+```shell
+defaults read > default_read.changed.txt
+```
+
+### compare the changes
+
+```shell
+diff -y defaults_read.txt defaults_read.changed.txt
+```
