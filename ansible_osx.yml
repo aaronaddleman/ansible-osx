@@ -19,7 +19,8 @@
           'gpg2',
           'gnupg2',
           'pinentry-mac',
-          'tree'
+          'tree',
+          'markdown'
         ]
         state: present
         update_homebrew: yes
