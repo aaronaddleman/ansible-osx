@@ -21,7 +21,8 @@
           'pinentry-mac',
           'tree',
           'markdown',
-          'jq'
+          'jq',
+          'vault-cli'
         ]
         state: present
         update_homebrew: yes
