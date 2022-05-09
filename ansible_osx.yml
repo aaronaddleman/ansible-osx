@@ -91,6 +91,7 @@
         - todoist
         - postman
         - 1password
+        - sublime-text
     - name: Gather trackpad clicking
       shell: defaults read com.apple.AppleMultitouchTrackpad Clicking
       register: trackpadClicking
