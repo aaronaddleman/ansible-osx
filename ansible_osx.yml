@@ -22,7 +22,8 @@
           'tree',
           'markdown',
           'jq',
-          'vault'
+          'vault',
+          'awscli@2'
         ]
         state: present
         update_homebrew: yes
