@@ -22,7 +22,7 @@
           'tree',
           'markdown',
           'jq',
-          'vault-cli'
+          'vault'
         ]
         state: present
         update_homebrew: yes
