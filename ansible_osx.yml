@@ -23,7 +23,8 @@
           'markdown',
           'jq',
           'vault',
-          'awscli@2'
+          'awscli@2',
+          'coreutils'
         ]
         state: present
         update_homebrew: yes
@@ -95,6 +96,7 @@
         - postman
         - 1password
         - sublime-text
+        - divvy
     - name: Gather trackpad clicking
       shell: defaults read com.apple.AppleMultitouchTrackpad Clicking
       register: trackpadClicking
