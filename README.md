@@ -64,3 +64,43 @@ defaults read > default_read.changed.txt
 ```shell
 diff -y defaults_read.txt defaults_read.changed.txt
 ```
+
+## TODO
+
+Turn the following into some changes auto applied:
+
+```shell
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -int 1
+defaults write com.apple.Safari ShowStatusBar -bool true
+defaults write com.apple.Safari AutoOpenSafeDownLoads -bool false
+defaults write com.apple.Safari CommandClickMakesTabs -bool true
+defaults write com.apple.Safari SafariGeolocationPermissionPolicy -int 1
+
+chflags nohidden "${HOME}/Library"
+
+defaults write com.apple.Finder AppleShowAllFiles true
+
+defaults write NSGlobalDomain "AppleEnableMenuBarTransparency" -bool false
+
+defaults write com.apple.archiveutility "dearchive-reveal-after" -bool false
+
+function killallApps() {
+  killall "Finder" > /dev/null 2>&1
+  killall "SystemUIServer" > /dev/null 2>&1
+  killall "Dock" > /dev/null 2>&1
+  
+  appsToKill=(
+  "Safari"
+  )
+  
+  for app in "${appsToKill}"
+  do
+    killall "${app}" > /dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        open 0a "${app}"
+    fi
+  done
+  
+  echo "Best to restart/logout+login to apply all changes"
+}
+```

@@ -24,7 +24,8 @@
           'jq',
           'vault',
           'awscli@2',
-          'coreutils'
+          'coreutils',
+          'watch'
         ]
         state: present
         update_homebrew: yes
