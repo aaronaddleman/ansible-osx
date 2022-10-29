@@ -66,11 +66,16 @@
       community.general.homebrew:
         name: emacs-plus@28
         state: present
-        install_options: with-native-comp,with-spacemacs-icon
+        install_options: with-native-comp,with-xwidgets,with-dragon-icon
     # Spacemacs
     - name: Spacemacs
       ansible.builtin.git:
         repo: 'https://github.com/syl20bnr/spacemacs'
+        dest: ~/.emacs.d
+        update: no
+    - name: Chemacs2
+      ansible.builtin.git:
+        repo: 'https://github.com/plexus/chemacs2.git'
         dest: ~/.emacs.d
         update: no
     - name: Aaron's Dotfiles
@@ -98,6 +103,7 @@
         - 1password
         - sublime-text
         - divvy
+        - slack
     - name: Gather trackpad clicking
       shell: defaults read com.apple.AppleMultitouchTrackpad Clicking
       register: trackpadClicking
