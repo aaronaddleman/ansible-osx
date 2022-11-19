@@ -66,7 +66,7 @@
       community.general.homebrew:
         name: emacs-plus@28
         state: present
-        install_options: with-native-comp,with-xwidgets,with-dragon-icon
+        install_options: with-native-comp,with-dragon-icon
     # Spacemacs
     - name: Spacemacs
       ansible.builtin.git:
@@ -104,6 +104,7 @@
         - sublime-text
         - divvy
         - slack
+        - warp
     - name: Gather trackpad clicking
       shell: defaults read com.apple.AppleMultitouchTrackpad Clicking
       register: trackpadClicking
